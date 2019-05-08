@@ -155,7 +155,10 @@ services:
       - --log-file=/logs/drainer.log
       - --pd-urls={{- template "pd_list_with_schema" $ }}
       - --config=/drainer.toml
-      - -initial-commit-ts=0
+      - --initial-commit-ts=0
+      {{- if eq $.Values.drainer.destDBType "kafka" }}
+      - --dest-db-type=kafka
+      {{- end }}
     depends_on:
       {{- range until $pumpSize }}
       - "pump{{.}}"

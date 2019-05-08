@@ -233,7 +233,8 @@ services:
       - --log-file=/logs/drainer.log
       - --pd-urls=http://pd0:2379,http://pd1:2379,http://pd2:2379
       - --config=/drainer.toml
-      - -initial-commit-ts=0
+      - --initial-commit-ts=0
+      - --dest-db-type=kafka
     depends_on:
       - "pump0"
       - "pump1"
