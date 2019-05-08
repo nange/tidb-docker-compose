@@ -47,7 +47,7 @@ safe-mode = false
 
 # downstream storage, equal to --dest-db-type
 # valid values are "mysql", "file", "tidb", "flash", "kafka"
-db-type = "mysql"
+db-type = "kafka"
 
 # disable sync these schema
 ignore-schemas = "INFORMATION_SCHEMA,PERFORMANCE_SCHEMA,mysql"
@@ -71,11 +71,11 @@ ignore-schemas = "INFORMATION_SCHEMA,PERFORMANCE_SCHEMA,mysql"
 #tbl-name = "log"
 
 # the downstream mysql protocol database
-[syncer.to]
-host = "127.0.0.1"
-user = "root"
-password = ""
-port = 3306
+#[syncer.to]
+#host = "127.0.0.1"
+#user = "root"
+#password = ""
+#port = 3306
 
 [syncer.to.checkpoint]
 # you can uncomment this to change the database to save checkpoint when the downstream is mysql or tidb
@@ -88,12 +88,12 @@ port = 3306
 
 
 # when db-type is kafka, you can uncomment this to config the down stream kafka, it will be the globle config kafka default
-#[syncer.to]
+[syncer.to]
 # only need config one of zookeeper-addrs and kafka-addrs, will get kafka address if zookeeper-addrs is configed.
 # zookeeper-addrs = "127.0.0.1:2181"
-# kafka-addrs = "127.0.0.1:9092"
-# kafka-version = "0.8.2.0"
-# kafka-max-messages = 1024
+ kafka-addrs = "kafka:9092"
+ kafka-version = "2.1.1"
+ kafka-max-messages = 1024
 #
 #
 # the topic name drainer will push msg, the default name is <cluster-id>_obinlog
