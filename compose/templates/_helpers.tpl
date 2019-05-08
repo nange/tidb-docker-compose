@@ -24,3 +24,16 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
+
+{{- define "pd_list_with_schema" }}
+  {{- range until (.Values.pd.size | int) }}
+    {{- if . -}}
+      ,
+    {{- end -}}
+    {{- if eq $.Values.networkMode "host" -}}
+      http://127.0.0.1:{{ add ($.Values.pd.port | int) . }}
+    {{- else -}}
+      http://pd{{ . }}:2379
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

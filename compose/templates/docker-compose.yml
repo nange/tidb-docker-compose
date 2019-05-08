@@ -127,7 +127,7 @@ services:
       - --data-dir=/data/pump{{ . }}
       - --log-file=/logs/pump{{ . }}.log
       - --node-id=pump{{ . }}
-      - --pd-urls={{- template "initial_cluster" $ }}
+      - --pd-urls={{- template "pd_list_with_schema" $ }}
       - --config=/pump.toml
     depends_on:
       {{- range until $pdSize }}
@@ -158,7 +158,7 @@ services:
       {{- end }}
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
-      - --pd-urls={{- template "initial_cluster" $ }}
+      - --pd-urls={{- template "pd_list_with_schema" $ }}
       - --config=/drainer.toml
       - -initial-commit-ts=0
     depends_on:
