@@ -150,7 +150,7 @@ services:
       - {{ $.Values.logsDir }}:/logs
     command:
       - /drainer
-      - --addr=0.0.0.0:8250
+      - --addr=0.0.0.0:8249
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
       - --pd-urls={{- template "pd_list_with_schema" $ }}
@@ -219,9 +219,17 @@ services:
       - --path={{- template "pd_list" $ }}
       - --config=/tidb.toml
       - --log-file=/logs/tidb.log
+      {{- if .Values.tidb.enableBinlog }}
+      - --enable-binlog=true
+      {{- end }}
     depends_on:
       {{- range until $tikvSize }}
       - "tikv{{.}}"
+      {{- end }}
+      {{- if .Values.tidb.enableBinlog }}
+      {{- range until $pumpSize }}
+      - "pump{{.}}"
+      {{- end }}
       {{- end }}
     # sysctls:
     #   net.core.somaxconn: 32768

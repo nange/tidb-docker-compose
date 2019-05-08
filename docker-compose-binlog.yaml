@@ -228,7 +228,7 @@ services:
       - ./logs:/logs
     command:
       - /drainer
-      - --addr=0.0.0.0:8250
+      - --addr=0.0.0.0:8249
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
       - --pd-urls=http://pd0:2379,http://pd1:2379,http://pd2:2379
@@ -279,10 +279,14 @@ services:
       - --path=pd0:2379,pd1:2379,pd2:2379
       - --config=/tidb.toml
       - --log-file=/logs/tidb.log
+      - --enable-binlog=true
     depends_on:
       - "tikv0"
       - "tikv1"
       - "tikv2"
+      - "pump0"
+      - "pump1"
+      - "pump2"
     # sysctls:
     #   net.core.somaxconn: 32768
     # ulimits:
