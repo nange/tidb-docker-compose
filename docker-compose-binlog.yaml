@@ -229,7 +229,6 @@ services:
     command:
       - /drainer
       - --addr=0.0.0.0:8250
-      - --advertise-addr=drainer:8250
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
       - --pd-urls=http://pd0:2379,http://pd1:2379,http://pd2:2379

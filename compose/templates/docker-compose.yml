@@ -151,11 +151,6 @@ services:
     command:
       - /drainer
       - --addr=0.0.0.0:8250
-      {{- if eq $.Values.networkMode "host" }}
-      - --advertise-addr=127.0.0.1:8250
-      {{- else }}
-      - --advertise-addr=drainer:8250
-      {{- end }}
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
       - --pd-urls={{- template "pd_list_with_schema" $ }}
