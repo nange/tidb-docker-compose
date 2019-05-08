@@ -170,7 +170,7 @@ services:
       - --data-dir=/data/pump0
       - --log-file=/logs/pump0.log
       - --node-id=pump0
-      - --pd-urls=pd0:2379,pd1:2379,pd2:2379
+      - --pd-urls=pd0=http://pd0:2380,pd1=http://pd1:2380,pd2=http://pd2:2380
       - --config=/pump.toml
     depends_on:
       - "pd0"
@@ -191,7 +191,7 @@ services:
       - --data-dir=/data/pump1
       - --log-file=/logs/pump1.log
       - --node-id=pump1
-      - --pd-urls=pd0:2379,pd1:2379,pd2:2379
+      - --pd-urls=pd0=http://pd0:2380,pd1=http://pd1:2380,pd2=http://pd2:2380
       - --config=/pump.toml
     depends_on:
       - "pd0"
@@ -212,7 +212,7 @@ services:
       - --data-dir=/data/pump2
       - --log-file=/logs/pump2.log
       - --node-id=pump2
-      - --pd-urls=pd0:2379,pd1:2379,pd2:2379
+      - --pd-urls=pd0=http://pd0:2380,pd1=http://pd1:2380,pd2=http://pd2:2380
       - --config=/pump.toml
     depends_on:
       - "pd0"
@@ -232,7 +232,7 @@ services:
       - --advertise-addr=drainer:8250
       - --data-dir=/data/data.drainer
       - --log-file=/logs/drainer.log
-      - --pd-urls=pd0:2379,pd1:2379,pd2:2379
+      - --pd-urls=pd0=http://pd0:2380,pd1=http://pd1:2380,pd2=http://pd2:2380
       - --config=/drainer.toml
       - -initial-commit-ts=0
     depends_on:
@@ -246,7 +246,7 @@ services:
     ports:
       - "2181:2181"
     environment:
-      - ZOO_DATADIR: "/data/zookeeper"
+      ZOO_DATADIR: /data/zookeeper
     volumes:
       - ./data/zookeeper:/data/zookeeper
     restart: on-failure
