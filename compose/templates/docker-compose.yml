@@ -186,8 +186,8 @@ services:
       ZOO_MY_ID: {{ add . 1 }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
     volumes:
-      - {{ $.Values.dataDir }}/zoo{{ . }}:/data
-      - {{ $.Values.dataDir }}/zoo{{ . }}:/datalog
+      - {{ $.Values.dataDir }}/zoo{{ . }}/data:/data
+      - {{ $.Values.dataDir }}/zoo{{ . }}/datalog:/datalog
     restart: on-failure
   {{ end }}
 

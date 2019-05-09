@@ -252,8 +252,8 @@ services:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=zoo0:2888:3888 server.2=zoo1:2888:3888 server.3=zoo2:2888:3888
     volumes:
-      - ./data/zoo0:/data
-      - ./data/zoo0:/datalog
+      - ./data/zoo0/data:/data
+      - ./data/zoo0/datalog:/datalog
     restart: on-failure
   
   zoo1:
@@ -264,8 +264,8 @@ services:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=zoo0:2888:3888 server.2=zoo1:2888:3888 server.3=zoo2:2888:3888
     volumes:
-      - ./data/zoo1:/data
-      - ./data/zoo1:/datalog
+      - ./data/zoo1/data:/data
+      - ./data/zoo1/datalog:/datalog
     restart: on-failure
   
   zoo2:
@@ -276,8 +276,8 @@ services:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo0:2888:3888 server.2=zoo1:2888:3888 server.3=zoo2:2888:3888
     volumes:
-      - ./data/zoo2:/data
-      - ./data/zoo2:/datalog
+      - ./data/zoo2/data:/data
+      - ./data/zoo2/datalog:/datalog
     restart: on-failure
   
   kafka0:
