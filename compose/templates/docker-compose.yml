@@ -171,11 +171,15 @@ services:
     restart: on-failure
 
   {{- if eq $.Values.drainer.destDBType "kafka" }}
-  {{- range until $zooSize }}
+  {{ range until $zooSize }}
   zoo{{ . }}:
     image: zookeeper:latest
     ports:
+      {{- if . }}
+      - "2181"
+      {{- else }}
       - "2181:2181"
+      {{- end }}
     environment:
       ZOO_MY_ID: {{ . }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
@@ -183,7 +187,7 @@ services:
       - ./data/zoo{{ . }}:/data
       - ./data/zoo{{ . }}:/datalog
     restart: on-failure
-  {{- end }}
+  {{ end }}
 
   kafka:
     image: wurstmeister/kafka:2.12-2.1.1
