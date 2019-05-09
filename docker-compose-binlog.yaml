@@ -236,9 +236,9 @@ services:
       - --initial-commit-ts=0
       - --dest-db-type=kafka
     depends_on:
-      - "pump0"
-      - "pump1"
-      - "pump2"
+      - "pd0"
+      - "pd1"
+      - "pd2"
       - "kafka0"
       - "kafka1"
       - "kafka2"

@@ -162,8 +162,8 @@ services:
       - --dest-db-type=kafka
       {{- end }}
     depends_on:
-      {{- range until $pumpSize }}
-      - "pump{{ . }}"
+      {{- range until $pdSize }}
+      - "pd{{ . }}"
       {{- end }}
       {{- if eq $.Values.drainer.destDBType "kafka" }}
       {{- range until $kafkaSize }}
