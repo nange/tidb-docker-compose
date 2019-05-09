@@ -291,6 +291,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./data/kafka-logs/kafka0:/data/kafka-logs
+      - ./logs/kafka0:/opt/kafka/logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - "zoo0"
@@ -309,6 +310,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./data/kafka-logs/kafka1:/data/kafka-logs
+      - ./logs/kafka1:/opt/kafka/logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - "zoo0"
@@ -327,6 +329,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
     volumes:
       - ./data/kafka-logs/kafka2:/data/kafka-logs
+      - ./logs/kafka2:/opt/kafka/logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - "zoo0"

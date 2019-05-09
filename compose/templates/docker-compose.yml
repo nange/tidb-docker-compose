@@ -186,8 +186,8 @@ services:
       ZOO_MY_ID: {{ add . 1 }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
     volumes:
-      - ./data/zoo{{ . }}:/data
-      - ./data/zoo{{ . }}:/datalog
+      - {{ $.Values.dataDir }}/zoo{{ . }}:/data
+      - {{ $.Values.dataDir }}/zoo{{ . }}:/datalog
     restart: on-failure
   {{ end }}
 
@@ -206,7 +206,8 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: {{ $.Values.kafka.advertisedHostName }}
       KAFKA_ZOOKEEPER_CONNECT: {{ template "zoo_connect" $ }}
     volumes:
-      - ./data/kafka-logs/kafka{{ . }}:/data/kafka-logs
+      - {{ $.Values.dataDir }}/kafka-logs/kafka{{ . }}:/data/kafka-logs
+      - {{ $.Values.logsDir }}/kafka{{ . }}:/opt/kafka/logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       {{- range until $zooSize }}
