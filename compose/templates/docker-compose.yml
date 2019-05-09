@@ -181,14 +181,13 @@ services:
       - "2181:2181"
       {{- end }}
     environment:
-      ZOO_MY_ID: {{ . }}
+      ZOO_MY_ID: {{ add . 1 }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
     volumes:
       - ./data/zoo{{ . }}:/data
       - ./data/zoo{{ . }}:/datalog
     restart: on-failure
   {{ end }}
-
   kafka:
     image: wurstmeister/kafka:2.12-2.1.1
     ports:
