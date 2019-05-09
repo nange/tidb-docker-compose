@@ -25,7 +25,7 @@
   {{- end -}}
 {{- end -}}
 
-{{- define "pd_list_with_schema" }}
+{{- define "pd_urls" }}
   {{- range until (.Values.pd.size | int) }}
     {{- if . -}}
       ,
@@ -35,5 +35,19 @@
     {{- else -}}
       http://pd{{ . }}:2379
     {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "zoo_servers" }}
+  {{- range until (.Values.zookeeper.size | int) }}
+  {{- if . -}}{{- end }} server.{{ add . 1 }}=zoo{{ add . 1 }}:2888:3888
+  {{- end -}}
+{{- end -}}
+
+{{- define "zoo_connect" }}
+  {{- range until (.Values.zookeeper.size | int) }}
+  {{- if . -}}
+    ,
+  {{- end }} server.{{ add . 1 }}=zoo{{ add . 1 }}:2888:3888
   {{- end -}}
 {{- end -}}

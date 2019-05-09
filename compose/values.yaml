@@ -59,7 +59,13 @@ drainer:
   # dockerfile: Dockerfile
   destDBType: "kafka"
 
+zookeeper:
+  size: 3
+  image: zookeeper:latest
+
 kafka:
+  size: 3
+  image: wurstmeister/kafka:2.12-2.1.1
   advertisedHostName: "127.0.0.1"
 
 tispark:

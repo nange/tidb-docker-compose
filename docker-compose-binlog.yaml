@@ -241,13 +241,38 @@ services:
       - "pump2"
       - "kafka"
     restart: on-failure
-  zookeeper:
+  zoo0:
     image: zookeeper:latest
     ports:
       - "2181:2181"
+    environment:
+      ZOO_MY_ID: 0
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
     volumes:
-      - ./data/zookeeper:/data
-      - ./logs/zookeeper:/datalog
+      - ./data/zoo0:/data
+      - ./data/zoo0:/datalog
+    restart: on-failure
+  zoo1:
+    image: zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+    volumes:
+      - ./data/zoo1:/data
+      - ./data/zoo1:/datalog
+    restart: on-failure
+  zoo2:
+    image: zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+    volumes:
+      - ./data/zoo2:/data
+      - ./data/zoo2:/datalog
     restart: on-failure
 
   kafka:
@@ -258,7 +283,7 @@ services:
       KAFKA_BROKER_ID: 0
       KAFKA_LOG_DIRS: /data/kafka-logs
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: server.1=zoo1:2888:3888, server.2=zoo2:2888:3888, server.3=zoo3:2888:3888
     volumes:
       - ./data/kafka-logs:/data/kafka-logs
       - /var/run/docker.sock:/var/run/docker.sock
