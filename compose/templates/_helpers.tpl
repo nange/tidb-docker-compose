@@ -48,6 +48,7 @@
   {{- range until (.Values.zookeeper.size | int) }}
   {{- if . -}}
     ,
-  {{- end }} server.{{ add . 1 }}=zoo{{ add . 1 }}:2888:3888
+  {{- end -}}
+  server.{{ add . 1 }}=zoo{{ add . 1 }}:2888:3888
   {{- end -}}
 {{- end -}}

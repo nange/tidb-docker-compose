@@ -283,12 +283,14 @@ services:
       KAFKA_BROKER_ID: 0
       KAFKA_LOG_DIRS: /data/kafka-logs
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
-      KAFKA_ZOOKEEPER_CONNECT: server.1=zoo1:2888:3888, server.2=zoo2:2888:3888, server.3=zoo3:2888:3888
+      KAFKA_ZOOKEEPER_CONNECT: server.1=zoo1:2888:3888,server.2=zoo2:2888:3888,server.3=zoo3:2888:3888
     volumes:
       - ./data/kafka-logs:/data/kafka-logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - "zookeeper"
+      - "zoo0"
+      - "zoo1"
+      - "zoo2"
     restart: on-failure
   
   tidb:
