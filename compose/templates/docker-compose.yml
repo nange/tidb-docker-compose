@@ -163,10 +163,12 @@ services:
       {{- end }}
     depends_on:
       {{- range until $pumpSize }}
-      - "pump{{.}}"
+      - "pump{{ . }}"
       {{- end }}
       {{- if eq $.Values.drainer.destDBType "kafka" }}
-      - "kafka"
+      {{- range until $kafkaSize }}
+      - "kafka{{ . }}"
+      {{- end }}
       {{- end }}
     restart: on-failure
 
@@ -188,23 +190,31 @@ services:
       - ./data/zoo{{ . }}:/datalog
     restart: on-failure
   {{ end }}
-  kafka:
-    image: wurstmeister/kafka:2.12-2.1.1
+
+  {{- range until $kafkaSize }}
+  kafka{{ . }}:
+    image: {{ $.Values.kafka.image }}
     ports:
+      {{- if . }}
+      - "9092"
+      {{- else }}
       - "9092:9092"
+      {{- end }}
     environment:
-      KAFKA_BROKER_ID: 0
+      KAFKA_BROKER_ID: {{ add . 1 }}
       KAFKA_LOG_DIRS: /data/kafka-logs
       KAFKA_ADVERTISED_HOST_NAME: {{ $.Values.kafka.advertisedHostName }}
       KAFKA_ZOOKEEPER_CONNECT: {{ template "zoo_connect" $ }}
     volumes:
-      - ./data/kafka-logs:/data/kafka-logs
+      - ./data/kafka-logs/kafka{{ . }}:/data/kafka-logs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       {{- range until $zooSize }}
       - "zoo{{ . }}"
       {{- end }}
     restart: on-failure
+  {{ end }}
+
   {{- end }}
   {{ end }}
 

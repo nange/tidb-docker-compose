@@ -91,7 +91,7 @@ ignore-schemas = "INFORMATION_SCHEMA,PERFORMANCE_SCHEMA,mysql"
 [syncer.to]
 # only need config one of zookeeper-addrs and kafka-addrs, will get kafka address if zookeeper-addrs is configed.
 # zookeeper-addrs = "127.0.0.1:2181"
- kafka-addrs = "kafka:9092"
+ kafka-addrs = "kafka0:9092,kafka1:9092,kafka2:9092"
  kafka-version = "2.1.1"
  kafka-max-messages = 1024
 #
