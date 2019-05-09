@@ -170,13 +170,12 @@ services:
 
   {{- if eq $.Values.drainer.destDBType "kafka" }}
   zookeeper:
-    image: wurstmeister/zookeeper:latest
+    image: zookeeper:latest
     ports:
       - "2181:2181"
-    environment:
-      ZOO_DATADIR: /data/zookeeper
     volumes:
-      - ./data/zookeeper:/data/zookeeper
+      - ./data/zookeeper:/data
+      - ./logs/zookeeper:/datalog
     restart: on-failure
 
   kafka:
