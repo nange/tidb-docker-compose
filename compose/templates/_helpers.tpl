@@ -40,7 +40,11 @@
 
 {{- define "zoo_servers" }}
   {{- range until (.Values.zookeeper.size | int) }}
-  {{- if . -}}{{- end }} server.{{ add . 1 }}=zoo{{ . }}:2888:3888
+  {{- if eq $.Values.networkMode "host" }} server.{{ add . 1 }}=127.0.0.1:{{ add . 2888 }}:{{ add . 3888 }}
+  {{- else -}}
+  server.{{ add . 1 }}=zoo{{ . }}:2888:3888
+  {{- end -}}
+
   {{- end -}}
 {{- end -}}
 
@@ -49,6 +53,10 @@
   {{- if . -}}
     ,
   {{- end -}}
+  {{- if eq $.Values.networkMode "host" -}}
+  127.0.0.1:{{ add $.Values.zookeeper.port . }}
+  {{- else -}}
   zoo{{ add . 1 }}:2181
+  {{- end -}}
   {{- end -}}
 {{- end -}}

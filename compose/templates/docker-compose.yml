@@ -7,7 +7,9 @@
 {{- $pumpPort := .Values.pump.port | int }}
 {{- $drainerPort := .Values.drainer.port | int }}
 {{- $zooSize := .Values.zookeeper.size | int }}
+{{- $zooPort := .Values.zookeeper.port | int }}
 {{- $kafkaSize := .Values.kafka.size | int }}
+{{- $kafkaPort := .Values.kafka.port | int }}
 version: '2.1'
 
 services:
@@ -146,6 +148,9 @@ services:
         context: {{ $.Values.drainer.buildPath | default "./pump" }}
         dockerfile: {{ $.Values.drainer.dockerfile | default "Dockerfile" }}
     {{- end }}
+    {{- if eq $.Values.networkMode "host" }}
+    network_mode: host
+    {{- end }}
     volumes:
       - ./config/drainer.toml:/drainer.toml:ro
       - {{ $.Values.dataDir }}:/data
@@ -176,14 +181,21 @@ services:
   {{ range until $zooSize }}
   zoo{{ . }}:
     image: zookeeper:latest
+    {{- if eq $.Values.networkMode "host" }}
+    network_mode: host
+    {{- else }}
     ports:
       {{- if . }}
       - "2181"
       {{- else }}
       - "2181:2181"
       {{- end }}
+    {{- end }}
     environment:
       ZOO_MY_ID: {{ add . 1 }}
+      {{- if eq $.Values.networkMode "host" }}
+      ZOO_PORT: {{ add $zooPort . }}
+      {{- end }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
     volumes:
       - {{ $.Values.dataDir }}/zoo{{ . }}/data:/data
@@ -194,16 +206,20 @@ services:
   {{- range until $kafkaSize }}
   kafka{{ . }}:
     image: {{ $.Values.kafka.image }}
+    {{- if eq $.Values.networkMode "host" }}
+    network_mode: host
+    {{- else }}
     ports:
       {{- if . }}
       - "9092"
       {{- else }}
       - "9092:9092"
       {{- end }}
+    {{- end }}
     environment:
       KAFKA_BROKER_ID: {{ add . 1 }}
       KAFKA_LOG_DIRS: /data/kafka-logs
-      KAFKA_ADVERTISED_HOST_NAME: {{ $.Values.kafka.advertisedHostName }}
+      KAFKA_LISTENERS: PLAINTEXT://{{ $.Values.kafka.advertisedHostName }}:{{ add . $kafkaPort }}
       KAFKA_ZOOKEEPER_CONNECT: {{ template "zoo_connect" $ }}
     volumes:
       - {{ $.Values.dataDir }}/kafka-logs/kafka{{ . }}:/data/kafka-logs

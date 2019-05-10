@@ -2,7 +2,7 @@ dataDir: ./data
 logsDir: ./logs
 # supported networkMode: bridge | host
 # host network mode is useless on Mac
-networkMode: bridge
+networkMode: host
 
 pd:
   size: 3
@@ -62,11 +62,13 @@ drainer:
 zookeeper:
   size: 3
   image: zookeeper:latest
+  port: 2181
 
 kafka:
   size: 3
   image: wurstmeister/kafka:2.12-2.1.1
   advertisedHostName: "127.0.0.1"
+  port: 9092
 
 tispark:
   image: pingcap/tispark:latest
