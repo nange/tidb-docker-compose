@@ -2,7 +2,7 @@ dataDir: ./data
 logsDir: ./logs
 # supported networkMode: bridge | host
 # host network mode is useless on Mac
-networkMode: host
+networkMode: bridge
 
 pd:
   size: 3
@@ -67,7 +67,9 @@ zookeeper:
 kafka:
   size: 3
   image: wurstmeister/kafka:2.12-2.1.1
-  advertisedHostName: "127.0.0.1"
+  # Please update the advertisedHostName with your docker host IP,
+  # if you want to consume the kafka message outside the docker container
+  advertisedHostName:
   port: 9092
 
 tispark:

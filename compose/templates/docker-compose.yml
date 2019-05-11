@@ -185,17 +185,11 @@ services:
     network_mode: host
     {{- else }}
     ports:
-      {{- if . }}
-      - "2181"
-      {{- else }}
-      - "2181:2181"
-      {{- end }}
+      - "{{ add $zooPort . }}:{{ add $zooPort . }}"
     {{- end }}
     environment:
       ZOO_MY_ID: {{ add . 1 }}
-      {{- if eq $.Values.networkMode "host" }}
       ZOO_PORT: {{ add $zooPort . }}
-      {{- end }}
       ZOO_SERVERS: {{- template "zoo_servers" $ }}
     volumes:
       - {{ $.Values.dataDir }}/zoo{{ . }}/data:/data
@@ -219,7 +213,12 @@ services:
     environment:
       KAFKA_BROKER_ID: {{ add . 1 }}
       KAFKA_LOG_DIRS: /data/kafka-logs
-      KAFKA_LISTENERS: PLAINTEXT://{{ $.Values.kafka.advertisedHostName }}:{{ add . $kafkaPort }}
+      {{- if $.Values.kafka.advertisedHostName }}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{{ $.Values.kafka.advertisedHostName }}:{{ add . $kafkaPort }}
+      {{- else }}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka{{ . }}:{{ add . $kafkaPort }}
+      {{- end }}
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:{{ add . $kafkaPort }}
       KAFKA_ZOOKEEPER_CONNECT: {{ template "zoo_connect" $ }}
     volumes:
       - {{ $.Values.dataDir }}/kafka-logs/kafka{{ . }}:/data/kafka-logs
@@ -230,8 +229,7 @@ services:
       - "zoo{{ . }}"
       {{- end }}
     restart: on-failure
-  {{ end }}
-
+  {{- end }}
   {{- end }}
   {{ end }}
 
