@@ -212,7 +212,11 @@ services:
       {{- if $.Values.kafka.advertisedHostName }}
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{{ $.Values.kafka.advertisedHostName }}:{{ add . $kafkaPort }}
       {{- else }}
+      {{- if eq $.Values.networkMode "host" }}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:{{ add . $kafkaPort }}
+      {{- else }}
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka{{ . }}:{{ add . $kafkaPort }}
+      {{- end }}
       {{- end }}
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:{{ add . $kafkaPort }}
       KAFKA_ZOOKEEPER_CONNECT: {{ template "zoo_connect" $ }}
