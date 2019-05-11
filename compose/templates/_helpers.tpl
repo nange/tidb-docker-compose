@@ -57,7 +57,7 @@
   {{- if eq $.Values.networkMode "host" -}}
   127.0.0.1:{{ add $.Values.zookeeper.port . }}
   {{- else -}}
-  zoo{{ add . 1 }}:{{ add $.Values.zookeeper.port . }}
+  zoo{{ add . }}:{{ add $.Values.zookeeper.port . }}
   {{- end -}}
   {{- end -}}
 {{- end -}}
