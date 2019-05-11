@@ -305,7 +305,7 @@ services:
   kafka1:
     image: wurstmeister/kafka:2.12-2.1.1
     ports:
-      - "9092"
+      - "9093:9093"
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_LOG_DIRS: /data/kafka-logs
@@ -324,7 +324,7 @@ services:
   kafka2:
     image: wurstmeister/kafka:2.12-2.1.1
     ports:
-      - "9092"
+      - "9094:9094"
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_LOG_DIRS: /data/kafka-logs
