@@ -204,11 +204,7 @@ services:
     network_mode: host
     {{- else }}
     ports:
-      {{- if . }}
-      - "9092"
-      {{- else }}
-      - "9092:9092"
-      {{- end }}
+      - "{{ add . $kafkaPort }}:{{ add . $kafkaPort }}"
     {{- end }}
     environment:
       KAFKA_BROKER_ID: {{ add . 1 }}
