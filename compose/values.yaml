@@ -41,7 +41,7 @@ tidb:
 
 pump:
   size: 3
-  image:
+  image: pingcap/tidb-binlog:latest
 
   # If you want to build pump image from source, leave image empty and specify pump source directory
   # and its dockerfile name
@@ -51,7 +51,7 @@ pump:
   port: 8250
 
 drainer:
-  image: 
+  image: pingcap/tidb-binlog:latest
 
   # If you want to build drainer image from source, leave image empty and specify drainer source directory
   # and its dockerfile name
