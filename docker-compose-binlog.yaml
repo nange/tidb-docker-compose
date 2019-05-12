@@ -158,7 +158,10 @@ services:
     restart: on-failure
   
   pump0:
-    image: pingcap/tidb-binlog:latest
+    image: tidb-binlog:latest
+    build:
+      context: ./tidb-binlog
+      dockerfile: Dockerfile
     volumes:
       - ./config/pump.toml:/pump.toml:ro
       - ./data:/data
@@ -179,7 +182,10 @@ services:
     restart: on-failure
   
   pump1:
-    image: pingcap/tidb-binlog:latest
+    image: tidb-binlog:latest
+    build:
+      context: ./tidb-binlog
+      dockerfile: Dockerfile
     volumes:
       - ./config/pump.toml:/pump.toml:ro
       - ./data:/data
@@ -200,7 +206,10 @@ services:
     restart: on-failure
   
   pump2:
-    image: pingcap/tidb-binlog:latest
+    image: tidb-binlog:latest
+    build:
+      context: ./tidb-binlog
+      dockerfile: Dockerfile
     volumes:
       - ./config/pump.toml:/pump.toml:ro
       - ./data:/data
@@ -221,7 +230,10 @@ services:
     restart: on-failure
   
   drainer:
-    image: pingcap/tidb-binlog:latest
+    image: tidb-binlog:latest
+    build:
+      context: ./tidb-binlog
+      dockerfile: Dockerfile
     volumes:
       - ./config/drainer.toml:/drainer.toml:ro
       - ./data:/data

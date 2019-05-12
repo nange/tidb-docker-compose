@@ -107,10 +107,10 @@ services:
     {{- if $.Values.pump.image }}
     image: {{ $.Values.pump.image }}
     {{- else }}
-    image: pump:latest
-      build:
-        context: {{ $.Values.pump.buildPath | default "./pump" }}
-        dockerfile: {{ $.Values.pump.dockerfile | default "Dockerfile" }}
+    image: tidb-binlog:latest
+    build:
+      context: {{ $.Values.pump.buildPath | default "./tidb-binlog" }}
+      dockerfile: {{ $.Values.pump.dockerfile | default "Dockerfile" }}
     {{- end }}
     {{- if eq $.Values.networkMode "host" }}
     network_mode: host
@@ -143,10 +143,10 @@ services:
     {{- if $.Values.drainer.image }}
     image: {{ $.Values.drainer.image }}
     {{- else }}
-    image: drainer:latest
-      build:
-        context: {{ $.Values.drainer.buildPath | default "./pump" }}
-        dockerfile: {{ $.Values.drainer.dockerfile | default "Dockerfile" }}
+    image: tidb-binlog:latest
+    build:
+      context: {{ $.Values.drainer.buildPath | default "./tidb-binlog" }}
+      dockerfile: {{ $.Values.drainer.dockerfile | default "Dockerfile" }}
     {{- end }}
     {{- if eq $.Values.networkMode "host" }}
     network_mode: host
